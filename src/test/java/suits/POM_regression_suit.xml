@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="POM regression test" parallel="methods" thread-count="2" >
+    <test name="Demo test POM">
+        <classes>
+            <class name="tests.DemoTestPOM"></class>
+        </classes>
+        
+    </test>
+    
+    
+</suite>
