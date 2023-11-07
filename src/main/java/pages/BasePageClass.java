@@ -8,13 +8,14 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import utils.LoggerUtils;
 import utils.PropertiesUtils;
 import utils.WebDriverUtils;
 
 import java.time.Duration;
 import java.util.function.Function;
 
-public abstract class BasePageClass {
+public abstract class BasePageClass extends LoggerUtils {
 
     protected WebDriver driver;
 

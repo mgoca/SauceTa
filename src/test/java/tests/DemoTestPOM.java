@@ -5,37 +5,49 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import pages.InventoryPage;
 import pages.LoginPage;
-import utils.DateTimeUtils;
-import utils.PropertiesUtils;
-import utils.WebDriverUtils;
+import utils.*;
 
 
+public class DemoTestPOM extends LoggerUtils {
+   // WebDriver driver = null;
 
-
-
-public class DemoTestPOM {
-
-    private static final Logger log= LogManager.getLogger(DemoTestPOM.class);
+   /*    JEDAN NAČIN DA SE ODRADI SCREENSHOT PALIH TESTOVA, ALI DRIVER MORA BITI ISPRED METODA A DRUGI ĆE BITI U OKVIRU TESTA
+    @AfterMethod
+    public void tearDownTest(ITestResult testResult){
+        String sMethodName=testResult.getMethod().getMethodName();
+        if(testResult.getStatus()==ITestResult.FAILURE){
+            log.info("Capturing screenshot");
+            ScreenshotUtils.takeScreenshot(driver,sMethodName);
+        }
+        WebDriverUtils.quitDriver(driver);
+    }
+*/
     @Test
     public void testSuccessfulLogin() {
 
 
-
-        WebDriver driver = null;
+       WebDriver driver = null;
         String sUsername = PropertiesUtils.getUsername();
         String sPassword = PropertiesUtils.getPassword();
+
+        String sTestName = "testSuccessfulLogin";
+
+        boolean bSuccess=false;
+
         try {
-            log.info("Starting test 'SuccessfulLogin'");
+            log.info("Starting test " + sTestName);
             driver = WebDriverUtils.setUpDriver();
             DateTimeUtils.wait(3);
 
             //String sBaseUrl = PropertiesUtils.getBaseUrl();
             //String sLoginPage=sBaseUrl+PageUrlPaths.LOGIN_PAGE;
 
-            log.trace("Open login page");
+
             LoginPage loginPage = new LoginPage(driver);
             loginPage.open();
             System.out.println("Username text field before typing Username: " + loginPage.getUsername());
@@ -47,7 +59,7 @@ public class DemoTestPOM {
                     .clickLoginButton();
 
 */
-            log.trace("Type username");
+
             loginPage.typeUsername(sUsername);
 
             //System.out.println("Username text field after typing Username: "+ loginPage.getUsername());
@@ -60,15 +72,14 @@ public class DemoTestPOM {
 
             // usernameTextField.sendKeys(sUsername);
             // DateTimeUtils.wait(Time.SHORTEST);
-            log.trace("Type password");
-             loginPage.typePassword(sPassword);
+
+            loginPage.typePassword(sPassword);
             // By passwordTextFieldLocator = By.xpath("//*[@id=\"password\"]");
             // WebElement passwordTextField = driver.findElement(passwordTextFieldLocator);
             // passwordTextField.sendKeys(sPassword);
 
 
-            log.trace("Click login button");
-            InventoryPage inventoryPage=loginPage.clickLoginButton();
+            InventoryPage inventoryPage = loginPage.clickLoginButton();
             //By loginButtonFieldLocator = By.cssSelector("#login-button");
             //WebElement loginButtonField = driver.findElement(loginButtonFieldLocator);
             //loginButtonField.click();
@@ -79,23 +90,34 @@ public class DemoTestPOM {
             //String expectedUrl = inventoryPage.INVENTORY_PAGE_URL;
             // Assert.assertEquals(actualUrl, expectedUrl);
 
-            log.trace("Verify inventory page");
+
             String sActualInventoryPageTitle = inventoryPage.getInventoryPageTitle();
             String sExpectedInventoryTitle = CommonStrings.getInventoryPageTitle();
             Assert.assertEquals(sActualInventoryPageTitle, sExpectedInventoryTitle);
-
+            bSuccess=true;
         } finally {
-            log.info("End test 'Successful login'");
+            log.info("End test " + sTestName);
+            if(!bSuccess){
+                ScreenshotUtils.takeScreenshot(driver,sTestName);
+                log.info("Capturing screenshot");
+            }
+
+
             WebDriverUtils.quitDriver(driver);
         }
 
     }
+
     @Test
     public void unsuccessfulLoginWrongPassword() {
 
+        String sTestName = "unsuccessfulLoginWrongPassword";
         WebDriver driver = null;
 
+        boolean bSuccess=false;
+
         try {
+            log.info("Starting test " + sTestName);
             driver = WebDriverUtils.setUpDriver();
             DateTimeUtils.wait(3);
             //  ne treba više jer smo odradili preko LOGIN_PAGE
@@ -104,7 +126,8 @@ public class DemoTestPOM {
 
 
             String sUsername = PropertiesUtils.getUsername();
-            String sPassword = PropertiesUtils.getPassword() + "!";
+             String sPassword = PropertiesUtils.getPassword() +"!";
+            // String sPassword = PropertiesUtils.getPassword();
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.open();
@@ -145,9 +168,14 @@ public class DemoTestPOM {
             String actualMessage = loginPage.getErrorMessage();
             String expectedMessage = CommonStrings.getLoginErrorWrongCredentials();
             Assert.assertEquals(actualMessage, expectedMessage, "WrongError Messages");
-
+            bSuccess=true;
 
         } finally {
+            log.info("End test " + sTestName);
+            if(!bSuccess){
+                ScreenshotUtils.takeScreenshot(driver,sTestName);
+                log.info("Capturing screenshot");
+            }
             WebDriverUtils.quitDriver(driver);
         }
     }

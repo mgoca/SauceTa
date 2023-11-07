@@ -11,7 +11,7 @@
     <test  name="Demo Tests">
 
         <classes>
-            <class name="tests.DemoTest" />
+            <class name="tests.DemoTestPOM" />
         </classes>
 
     </test>

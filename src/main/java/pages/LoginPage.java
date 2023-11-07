@@ -2,6 +2,8 @@ package pages;
 
 import data.PageUrlPaths;
 import data.Time;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,37 +59,46 @@ public class LoginPage extends BasePageClass{
      return this;
     }
     public boolean isUsernameTextFieldDisplayed(){
+        log.debug("isUsernameTextFieldDisplayed()");
         return isWebElementDisplayed(usernameTextField);
 
     }
 
     public boolean isUsernameTextFieldEnabled(){
+        log.debug("isUsernameTextFieldEnabled()");
+
         Assert.assertTrue(isUsernameTextFieldDisplayed(),"UsernameTextField is NOT displayed");
        //WebElement element=getWebElement(usernameTextFieldLocator);
         return isWebElementEnabled(usernameTextField);
     }
     public boolean isPasswordTextFieldDisplayed(){
+        log.debug("isPasswordTextFieldDisplayed()");
         return isWebElementDisplayed(passwordTextField);
 
     }
 
     public boolean isPasswordTextFieldEnabled(){
+        log.debug("isPasswordTextFieldEnabled()");
         Assert.assertTrue(isPasswordTextFieldDisplayed(),"PasswordTextField is NOT displayed");
        // WebElement element=getWebElement(passwordTextFieldLocator);
         return isWebElementEnabled(passwordTextField);
     }
 
     public boolean isLoginButtonDisplayed(){
+        log.debug("isLoginButtonDisplayed()");
         return isWebElementDisplayed(loginButtonField);
 
     }
     public boolean isLoginButtonFieldEnabled(){
+        log.debug("isLoginButtonDisplayed()");
         Assert.assertTrue(isLoginButtonDisplayed(),"Login button field field is NOT displayed");
       //  WebElement element=getWebElement(loginButtonFieldLocator);
         return isWebElementEnabled(loginButtonField,Time.SHORTER);
     }
 
     public LoginPage typeUsername(String username) {
+        log.debug("typeUsername("+username+")");
+
         Assert.assertTrue(isUsernameTextFieldEnabled(),"Username text field is NOT enabled");
        // WebElement usernameTextField = getWebElement(usernameTextFieldLocator);
         clearAndTypeTextToWebElement(usernameTextField,username);
@@ -104,6 +115,7 @@ public class LoginPage extends BasePageClass{
         return getPlaceholderAttributeFromWebElement(usernameTextField,"value");
     }
     public LoginPage typePassword(String password) {
+        log.debug("typePassword("+password+")");
         Assert.assertTrue(isPasswordTextFieldEnabled(),"Password text field is NOT enabled");
        // WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
         clearAndTypeTextToWebElement(passwordTextField,password);
@@ -144,6 +156,7 @@ public class LoginPage extends BasePageClass{
 
 
     public InventoryPage login(String username,String password){
+        log.info("login( " +username+" ," +password+" )");
         typeUsername(username);
         typePassword(password);
         return clickLoginButton();

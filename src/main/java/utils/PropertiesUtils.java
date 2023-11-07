@@ -31,15 +31,24 @@ public class PropertiesUtils {
 
     public static String getBrowser() {
         return getTestProperty("browser");
-    }public static String getEnvironment() {
-        return getTestProperty("environment");}
+    }
+
+    public static String getEnvironment() {
+        return getTestProperty("environment");
+    }
+
     private static String getLocalBaseUrl() {
-        return getTestProperty("localBaseUrl");}
+        return getTestProperty("localBaseUrl");
+    }
+
     private static String getTestBaseUrl() {
-        return getTestProperty("testBaseUrl");}
+        return getTestProperty("testBaseUrl");
+    }
+
     private static String getProdBaseUrl() {
         return getTestProperty("prodBaseUrl");
     }
+
     public static String getBaseUrl() {
         String sEnvironment = getEnvironment();
         String sBaseUrl = null;
@@ -59,12 +68,15 @@ public class PropertiesUtils {
         }
         return sBaseUrl;
     }
+
     public static String getUsername() {
         return getTestProperty("userUsername");
     }
+
     public static String getPassword() {
         return getTestProperty("userPassword");
     }
+
     public static Boolean getRemote() {
         String sRemote = getTestProperty("remote");
         sRemote.toLowerCase();
@@ -73,18 +85,25 @@ public class PropertiesUtils {
         }
         return Boolean.parseBoolean(sRemote);
     }
-    public static Boolean getHeadless(){
-        String sHeadless=getTestProperty("headless");
+
+    public static Boolean getHeadless() {
+        String sHeadless = getTestProperty("headless");
         sHeadless.toLowerCase();
-        if(!(sHeadless.equals("true") || sHeadless.equals("false"))){
+        if (!(sHeadless.equals("true") || sHeadless.equals("false"))) {
             Assert.fail("Can not convert property value" + sHeadless + "to boolean");
         }
         return Boolean.parseBoolean(sHeadless);
     }
-    public static String getHubUrl(){
+
+    public static String getHubUrl() {
         return getTestProperty("hubUrl");
     }
-    public static String getLocale(){
+
+    public static String getLocale() {
         return getTestProperty("locale");
+    }
+
+    public static String getScreenShotFolder() {
+        return getTestProperty("screenShotsFolder");
     }
 }
